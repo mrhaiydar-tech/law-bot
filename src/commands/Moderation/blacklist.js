@@ -1,13 +1,14 @@
+commands/moderation/blacklist.js
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("blacklist")
-        .setDescription("Blacklist a user from the server")
+        .setDescription("Blacklist a member from the server")
         .addUserOption(option =>
             option
                 .setName("user")
-                .setDescription("User to blacklist")
+                .setDescription("Member to blacklist")
                 .setRequired(true)
         )
         .addStringOption(option =>
@@ -16,33 +17,49 @@ module.exports = {
                 .setDescription("Reason for blacklist")
                 .setRequired(true)
         )
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 
     async execute(interaction) {
 
         const user = interaction.options.getUser("user");
         const reason = interaction.options.getString("reason");
 
-        const member = await interaction.guild.members.fetch(user.id)
+    const member = await interaction.guild.members.fetch(user.id)
             .catch(() => null);
 
         if (!member) {
             return interaction.reply({
-                content: "❌ User is not in this server.",
+                content: "❌ That user is not in this server.",
+                ephemeral: true
+            });
+        }
+
+        if (!member.bannable) {
+            return interaction.reply({
+                content: "❌ I cannot blacklist this user. Check my role position and permissions.",
                 ephemeral: true
             });
         }
 
         await member.ban({
-            reason: `Blacklisted: ${reason}`
+            reason: `Blacklisted by ${interaction.user.tag}: ${reason}`
         });
 
         const embed = new EmbedBuilder()
-            .setTitle("🚫 User Blacklisted")
-            .setDescription(
-                `**User:** ${user.tag}\n` +
-                `**Reason:** ${reason}\n` +
-                `**Moderator:** ${interaction.user.tag}`
+            .setTitle("🚫 Member Blacklisted")
+            .addFields(
+                {
+                    name: "Member",
+                    value: `${user.tag}`
+                },
+                {
+                    name: "Reason",
+                    value: reason
+                },
+                {
+                    name: "Staff",
+                    value: `${interaction.user.tag}`
+                }
             )
             .setTimestamp();
 
