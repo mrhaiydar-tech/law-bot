@@ -1,35 +1,20 @@
-import {
-    SlashCommandBuilder,
-    EmbedBuilder,
-    PermissionFlagsBits
-} from 'discord.js';
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
-export default {
+module.exports = {
     data: new SlashCommandBuilder()
         .setName('session')
-        .setDescription('Start a Washington State Roleplay session.')
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
+        .setDescription('Start a roleplay session'),
 
     async execute(interaction) {
         const embed = new EmbedBuilder()
-            .setTitle('🦅 | SESSION STARTED')
+            .setTitle('🦅 | Session Started')
             .setDescription(
-                '**Washington State Roleplay** is now hosting a session!\n\n' +
-                '🎮 **Game Code:** `WSSRPe`\n' +
-                '👥 **Join the session and begin roleplay!**\n\n' +
-                'Please maintain professionalism and follow all community rules during the session.'
+                'A roleplay session has officially started!\n\n' +
+                '🎮 **Game Code:** WSSRPe\n' +
+                '📢 Join the session and participate in today’s roleplay!'
             )
-            .setTimestamp()
-            .setFooter({
-                text: 'Washington State Roleplay'
-            });
+            .setTimestamp();
 
-        await interaction.reply({
-            content: '@here',
-            embeds: [embed],
-            allowedMentions: {
-                parse: ['everyone']
-            }
-        });
-    }
+        await interaction.reply({ embeds: [embed] });
+    },
 };
