@@ -1,0 +1,20 @@
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('session')
+        .setDescription('Start a roleplay session'),
+
+    async execute(interaction) {
+        const embed = new EmbedBuilder()
+            .setTitle('🦅 | Session Started')
+            .setDescription(
+                'A roleplay session has officially started!\n\n' +
+                '🎮 **Game Code:** WSSRPe\n' +
+                '📢 Join the session and participate in today’s roleplay!'
+            )
+            .setTimestamp();
+
+        await interaction.reply({ embeds: [embed] });
+    },
+};
