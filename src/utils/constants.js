@@ -30,6 +30,12 @@ export const DEFAULT_GUILD_CONFIG = {
     adminRole: null,
     welcomeChannel: null,
     autoRole: null,
+    autoReplies: [],
+    autoReaction: {
+        enabled: false,
+        channelId: null,
+        reaction: null,
+    },
     logging: {
         enabled: false,
         channels: { audit: null, applications: null, reports: null },
@@ -42,9 +48,9 @@ export const DEFAULT_GUILD_CONFIG = {
 };
 
 export const INTERACTION_TIMEOUTS = {
-    EXPIRE: 15 * 60 * 1000,  
-    DEFER_TIMEOUT: 3000,      
-    REPLY_TIMEOUT: 3000       
+    EXPIRE: 15 * 60 * 1000,
+    DEFER_TIMEOUT: 3000,
+    REPLY_TIMEOUT: 3000
 };
 
 export const STORAGE_LIMITS = {

@@ -9,8 +9,8 @@ const TARGET_ROLE_ID = '1534935138440314960';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('lock')
-    .setDescription('Locks the current channel for the configured role.')
+    .setName('hide')
+    .setDescription('Hides the current channel from the configured role.')
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
 
   category: 'moderation',
@@ -20,9 +20,9 @@ export default {
     if (!deferSuccess) return;
 
     const channel = interaction.channel;
-    const targetRole = interaction.guild.roles.cache.get(TARGET_ROLE_ID);
+    const role = interaction.guild.roles.cache.get(TARGET_ROLE_ID);
 
-    if (!targetRole) {
+    if (!role) {
       return await replyUserError(interaction, {
         type: ErrorTypes.UNKNOWN,
         message: 'The configured role could not be found in this server.'
@@ -30,21 +30,14 @@ export default {
     }
 
     try {
-      const currentPermissions = channel.permissionsFor(targetRole);
-
-      if (!currentPermissions.has(PermissionFlagsBits.SendMessages)) {
-        return await replyUserError(interaction, {
-          type: ErrorTypes.UNKNOWN,
-          message: `${channel} is already locked for ${targetRole}.`
-        });
-      }
-
       await channel.permissionOverwrites.edit(
-        targetRole,
-        { SendMessages: false },
+        role,
+        {
+          ViewChannel: false
+        },
         {
           type: 0,
-          reason: `Channel locked for ${targetRole.name} by ${interaction.user.tag}`
+          reason: `Channel hidden from ${role.name} by ${interaction.user.tag}`
         }
       );
 
@@ -52,13 +45,13 @@ export default {
         client,
         guild: interaction.guild,
         event: {
-          action: 'Channel Locked',
+          action: 'Channel Hidden',
           target: channel.toString(),
           executor: `${interaction.user.tag} (${interaction.user.id})`,
           metadata: {
             channelId: channel.id,
-            roleId: targetRole.id,
-            roleName: targetRole.name,
+            roleId: role.id,
+            roleName: role.name,
             moderatorId: interaction.user.id
           }
         }
@@ -67,14 +60,13 @@ export default {
       await InteractionHelper.safeEditReply(interaction, {
         embeds: [
           successEmbed(
-            '🔒 Channel Locked',
-            `${channel} is now locked for ${targetRole}.`
+            '🔒 Channel Hidden',
+            `${channel} is now hidden from ${role}.`
           )
         ]
       });
-
     } catch (error) {
-      logger.error('Lock command error:', error);
+      logger.error('Hide command error:', error);
 
       await replyUserError(interaction, {
         type: ErrorTypes.PERMISSION,

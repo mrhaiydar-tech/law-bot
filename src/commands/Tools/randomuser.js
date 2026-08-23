@@ -49,6 +49,9 @@ export default {
         const onlineOnly = interaction.options.getBoolean('online') || false;
         const shouldMention = interaction.options.getBoolean('mention') || false;
 
+        // Fetch all server members before selecting
+        await interaction.guild.members.fetch();
+
         let members = interaction.guild.members.cache.filter(member => {
             if (member.user.bot && !includeBots) return false;
 
@@ -92,13 +95,13 @@ export default {
             '🎲 Random User Selected',
             shouldMention ? `${selectedMember}` : `**${user.username}**`
         )
-        .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 256 }))
-        .addFields(
-            { name: 'Username', value: user.username, inline: true },
-            { name: 'Bot', value: user.bot ? 'Yes' : 'No', inline: true },
-            { name: `Roles (${roles.length})`, value: roles.length > 0 ? roles.slice(0, 5).join('') + (roles.length > 5 ? `+${roles.length - 5} more` : '') : 'No roles', inline: false }
-        )
-        .setColor('primary');
+            .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 256 }))
+            .addFields(
+                { name: 'Username', value: user.username, inline: true },
+                { name: 'Bot', value: user.bot ? 'Yes' : 'No', inline: true },
+                { name: `Roles (${roles.length})`, value: roles.length > 0 ? roles.slice(0, 5).join('') + (roles.length > 5 ? `+${roles.length - 5} more` : '') : 'No roles', inline: false }
+            )
+            .setColor('#FF0000');
 
         const row = new ActionRowBuilder()
             .addComponents(
@@ -120,6 +123,9 @@ export default {
 
         collector.on('collect', async (i) => {
             try {
+                // Fetch all server members before selecting again
+                await interaction.guild.members.fetch();
+
                 let newMembers = interaction.guild.members.cache.filter(member => {
                     if (member.user.bot && !includeBots) return false;
 
@@ -158,13 +164,13 @@ export default {
                     '🎲 Random User Selected',
                     shouldMention ? `${newSelectedMember}` : `**${newUser.username}**`
                 )
-                .setThumbnail(newUser.displayAvatarURL({ dynamic: true, size: 256 }))
-                .addFields(
-                    { name: 'Username', value: newUser.username, inline: true },
-                    { name: 'Bot', value: newUser.bot ? 'Yes' : 'No', inline: true },
-                    { name: `Roles (${newRoles.length})`, value: newRoles.length > 0 ? newRoles.slice(0, 5).join('') + (newRoles.length > 5 ? `+${newRoles.length - 5} more` : '') : 'No roles', inline: false }
-                )
-                .setColor(newSelectedMember.displayHexColor || '#3498db');
+                    .setThumbnail(newUser.displayAvatarURL({ dynamic: true, size: 256 }))
+                    .addFields(
+                        { name: 'Username', value: newUser.username, inline: true },
+                        { name: 'Bot', value: newUser.bot ? 'Yes' : 'No', inline: true },
+                        { name: `Roles (${newRoles.length})`, value: newRoles.length > 0 ? newRoles.slice(0, 5).join('') + (newRoles.length > 5 ? `+${newRoles.length - 5} more` : '') : 'No roles', inline: false }
+                    )
+                    .setColor(newSelectedMember.displayHexColor || '#3498db');
 
                 await i.update({
                     content: shouldMention ? `${newSelectedMember}, you've been chosen!` : null,

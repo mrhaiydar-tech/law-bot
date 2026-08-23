@@ -15,17 +15,17 @@ export default {
         .addIntegerOption((option) =>
             option
                 .setName("minutes")
-                .setDescription("Number of minutes to count down (0-1440)")
+                .setDescription("Number of minutes to count down (0-7200)")
                 .setMinValue(0)
-                .setMaxValue(1440)
+                .setMaxValue(7200)
                 .setRequired(false),
         )
         .addIntegerOption((option) =>
             option
                 .setName("seconds")
-                .setDescription("Number of seconds to count down (0-59)")
+                .setDescription("Number of seconds to count down (0-432000)")
                 .setMinValue(0)
-                .setMaxValue(59)
+                .setMaxValue(432000)
                 .setRequired(false),
         )
         .addStringOption((option) =>
@@ -56,8 +56,8 @@ export default {
             throw new Error("Please specify a duration of at least 1 second.");
         }
 
-        if (totalSeconds > 86400) {
-            throw new Error("Countdown cannot be longer than 24 hours.");
+        if (totalSeconds > 432000) {
+            throw new Error("Countdown cannot be longer than 5 days.");
         }
 
         const endTime = Date.now() + totalSeconds * 1000;
