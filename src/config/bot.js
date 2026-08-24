@@ -161,7 +161,7 @@ export const botConfig = {
   economy: {
     currency: {
       // Currency display name.
-      name: "coins",
+      name: "BFCS Coins",
       // Plural display name.
       namePlural: "coins",
       // Currency symbol shown in balances.
@@ -302,10 +302,10 @@ export const botConfig = {
   // =========================
   verification: {
     // Message shown when posting the verification panel.
-    defaultMessage: "Click the button below to verify yourself and gain access to the server!",
+    defaultMessage: "Click the button below to get access to the server!",
 
     // Text on the verification button.
-    defaultButtonText: "Verify",
+    defaultButtonText: "Verify Yourself",
 
     // Automatic verification behavior.
     autoVerify: {
