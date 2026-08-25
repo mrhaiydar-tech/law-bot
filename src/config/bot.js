@@ -161,9 +161,9 @@ export const botConfig = {
   economy: {
     currency: {
       // Currency display name.
-      name: "coins",
+      name: "money",
       // Plural display name.
-      namePlural: "coins",
+      namePlural: "money",
       // Currency symbol shown in balances.
       symbol: "$",
     },
@@ -172,7 +172,7 @@ export const botConfig = {
     startingBalance: 0,
 
     // Maximum bank amount before upgrades (if upgrades are used).
-    baseBankCapacity: 100000,
+    baseBankCapacity: 10000000000,
 
     // Daily reward amount.
     dailyAmount: 100,
@@ -205,7 +205,7 @@ export const botConfig = {
   // SHOP SETTINGS
   // =========================
   // Add shop defaults here when needed.
-  shop: {
+  shop: { diamond , gold , 
 
   },
 
@@ -268,7 +268,7 @@ export const botConfig = {
 
     // Allowed winner count range.
     minimumWinners: 1,
-    maximumWinners: 10,
+    maximumWinners: 1,
 
     // Allowed giveaway duration range in milliseconds.
     // 300000 = 5 minutes.
@@ -386,7 +386,7 @@ export const botConfig = {
   // =========================
   // COUNTER CHANNELS
   // =========================
-  counters: {
+  counters: {    
     defaults: {
       // Default naming/description templates for counter entries.
       name: "{name} Counter",
