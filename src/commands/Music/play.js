@@ -6,7 +6,7 @@ export default {
     slashOnly: true,
     category: 'Music',
     data: new SlashCommandBuilder()
-        .setName('ش')
+        .setName('p')
         .setDescription('Play a song or add it to the queue')
         .addStringOption((opt) =>
             opt.setName('query').setDescription('Song name or URL').setRequired(true),
