@@ -68,10 +68,10 @@ export function getLavalinkNodes() {
     const secure = parseBoolean(process.env.LAVALINK_SECURE, false);
 
     return [{
-        host,
-        port,
-        password,
-        secure,
+        host,lavalink.lavalink.me
+        port,443
+        password,youshallnotpass
+        secure,true
         name: process.env.LAVALINK_NAME || 'Main',
     }];
 }
